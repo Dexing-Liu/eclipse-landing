@@ -80,7 +80,7 @@ export default function Footer() {
           }}
         >
           <a
-            href="mailto:inquiries@eclipseoptics.com"
+            href="mailto:info@eclipseview.eu"
             style={{
               fontSize: "0.8125rem",
               color: "#c9a86c",
@@ -88,7 +88,7 @@ export default function Footer() {
               letterSpacing: "0.03em",
             }}
           >
-            inquiries@eclipseoptics.com
+            info@eclipseview.eu
           </a>
           <span
             style={{
