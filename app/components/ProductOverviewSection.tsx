@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 const specs = [
-  { label: "Standard", value: "ISO 12312-2 · CE · FCC" },
+  { label: "Standard", value: "EN ISO 12312-2:2015 · CE Marked (EU 2016/425)" },
   { label: "Filter class", value: "Optical density ≥ 5.0" },
   { label: "Frame", value: "Premium paperboard" },
   { label: "Lead time", value: "4 – 8 weeks branded orders" },
@@ -64,7 +64,7 @@ export default function ProductOverviewSection() {
               marginBottom: "2.75rem",
             }}
           >
-            Certified optical protection with a premium wearing experience.
+            Compliant optical protection with a premium wearing experience.
             Institutional supply from 500 to 500,000 units.
           </p>
 

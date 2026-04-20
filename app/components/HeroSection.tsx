@@ -67,7 +67,7 @@ export default function HeroSection() {
             marginBottom: "1.75rem",
           }}
         >
-          ISO 12312-2 Certified · CE Compliant
+          EN ISO 12312-2:2015 Compliant · CE Marked
         </p>
 
         <h1
@@ -105,8 +105,8 @@ export default function HeroSection() {
             margin: "0 auto 3rem",
           }}
         >
-          ISO-certified solar eclipse glasses for museums, observatories,
-          science centers, and large-scale public events.
+          Solar eclipse glasses compliant with EN ISO 12312-2:2015, for
+          museums, observatories, science centers, and large-scale public events.
         </p>
 
         <div

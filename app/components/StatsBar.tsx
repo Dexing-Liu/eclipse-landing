@@ -1,7 +1,7 @@
 const stats = [
-  { value: "ISO 12312-2", label: "Certified Standard" },
+  { value: "EN ISO 12312-2:2015", label: "EU Safety Standard" },
   { value: "500k+", label: "Units Deployed" },
-  { value: "CE · FCC", label: "International Compliance" },
+  { value: "CE Marked", label: "EU 2016/425 PPE Regulation" },
   { value: "4–8 wk", label: "Branded Lead Time" },
 ];
 
