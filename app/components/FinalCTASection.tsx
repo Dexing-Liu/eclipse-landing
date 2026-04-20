@@ -3,6 +3,7 @@
 import { useState, FormEvent } from "react";
 
 const CONTACT_EMAIL = "info@eclipseview.eu";
+const FORMSUBMIT_URL = "https://formsubmit.co/ajax/info@eclipseview.eu";
 
 interface FormState {
   name: string;
@@ -24,6 +25,8 @@ export default function FinalCTASection() {
   const [form, setForm] = useState<FormState>(empty);
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   function validate(): Partial<FormState> {
     const e: Partial<FormState> = {};
@@ -45,7 +48,7 @@ export default function FinalCTASection() {
     }
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) {
@@ -53,26 +56,40 @@ export default function FinalCTASection() {
       return;
     }
 
-    const subject = encodeURIComponent(
-      `Inquiry from ${form.name} — ${form.organization}`
-    );
-    const body = encodeURIComponent(
-      [
-        `Name: ${form.name}`,
-        `Organization: ${form.organization}`,
-        `Email: ${form.email}`,
-        form.quantity ? `Estimated quantity: ${form.quantity}` : "",
-        "",
-        form.message,
-      ]
-        .filter((l) => l !== undefined)
-        .join("\n")
-    );
+    setLoading(true);
+    setSubmitError(null);
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
-    setForm(empty);
-    setErrors({});
+    try {
+      const res = await fetch(FORMSUBMIT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          organization: form.organization,
+          email: form.email,
+          quantity: form.quantity || "Not specified",
+          message: form.message,
+          _subject: `Inquiry from ${form.name} — ${form.organization}`,
+          _template: "table",
+          _captcha: "false",
+          _replyto: form.email,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success === "true" || data.success === true) {
+        setSubmitted(true);
+        setForm(empty);
+        setErrors({});
+      } else {
+        setSubmitError("Submission failed. Please email us directly at " + CONTACT_EMAIL);
+      }
+    } catch {
+      setSubmitError("Submission failed. Please email us directly at " + CONTACT_EMAIL);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -137,10 +154,11 @@ export default function FinalCTASection() {
             {submitted ? (
               <div style={successBoxStyle}>
                 <p style={{ margin: "0 0 0.5rem", fontWeight: 600, color: "#e8cc96" }}>
-                  Your email client should have opened.
+                  Inquiry received.
                 </p>
                 <p style={{ margin: 0, fontSize: "0.875rem", color: "#9099b8", lineHeight: 1.6 }}>
-                  If it didn&apos;t open automatically, email us directly at{" "}
+                  We will be in touch within 2 business days. You can also reach
+                  us directly at{" "}
                   <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: "#c9a86c", textDecoration: "none" }}>
                     {CONTACT_EMAIL}
                   </a>
@@ -229,8 +247,18 @@ export default function FinalCTASection() {
                   {errors.message && <span style={errorTextStyle}>{errors.message}</span>}
                 </div>
 
-                <button type="submit" style={submitButtonStyle}>
-                  Submit Inquiry
+                {submitError && (
+                  <p style={{ fontSize: "0.8125rem", color: "#e07060", margin: 0, lineHeight: 1.6 }}>
+                    {submitError}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{ ...submitButtonStyle, opacity: loading ? 0.65 : 1, cursor: loading ? "default" : "pointer" }}
+                >
+                  {loading ? "Sending…" : "Submit Inquiry"}
                 </button>
 
                 <p style={{ fontSize: "0.75rem", color: "#8e93ad", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
