@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-obsidian: #09080f;
+  --color-eclipse: #111520;
+  --color-eclipse-mid: #1c2135;
+  --color-corona: #c9a86c;
+  --color-corona-light: #e8cc96;
+  --color-starlight: #f4f1eb;
+  --color-mist: #8e93ad;
+  --color-charcoal: #252838;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-obsidian);
+  color: var(--color-starlight);
+  font-family: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+/* Responsive grid: stack to single column on small screens */
+@media (max-width: 640px) {
+  .section-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+
+  .section-pad {
+    padding: 5rem 1.25rem !important;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Input focus ring */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(201, 168, 108, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(201, 168, 108, 0.08);
+}
+
+/* Button hover states */
+button[type="submit"]:hover {
+  opacity: 0.88;
+}
+
+a:hover {
+  opacity: 0.85;
 }
